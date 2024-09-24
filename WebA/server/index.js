@@ -6,7 +6,13 @@ const cors = require('cors');
 const app = express();
 const apiRouter = express.Router();
 
-app.use(cors()); // Enable CORS
+const corsOptions = {
+    origin: 'http://localhost:5173', // 允许的来源
+    credentials: true, // 允许携带 cookie
+};
+
+
+app.use(cors(corsOptions)); // Enable CORS
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -65,11 +71,12 @@ apiRouter.get('/transfer', (req, res) => {
     if (!username) {
         return res.status(401).send('Please log in');
     }
-    const { name, money } = req.query;
-    res.send(`给 ${name} 转账 ${money} 元`);
+    const { name, amount } = req.query;
+    console.log(`给 ${name} 转账 ${amount} 元`);
+    res.send(`给 ${name} 转账 ${amount} 元`);
 })
 
-app.use('/api', apiRouter)
+app.use('/api', apiRouter);
 
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000/api ');

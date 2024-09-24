@@ -10,8 +10,11 @@ export const DashBoard: React.FC = () => {
     try {
       showLoading();
       const response = await axiosInstance.get('/transfer', {
-        name: 'Alice',
-        amount: 100,
+        withCredentials: true,
+        params: {
+          name: 'Alice',
+          amount: 100,
+        }
       });
       console.log('Transfer success:', response.data);
     } catch (e) {
